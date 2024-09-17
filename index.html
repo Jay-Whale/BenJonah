@@ -4,12 +4,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=charactergenerator.html">
     <title>BenJonah</title>
-    <link rel="stylesheet" href="styles/index-style.css">
+    <!-- <link rel="stylesheet" href="styles/index-style.css"> -->
+    <link rel="stylesheet" href="dist/bundle.css">
 </head>
 
 <body>
-    <img class="under-construction" src="images/UnderConstruction.svg">
+    <main>
+        <article class="center-align">
+            <img class="under-construction-img" src="images/UnderConstruction.svg">
+            <h6 class="white-text">If you are not redirected, <a class="deep-purple-text"
+                    href="charactergenerator.html">click here</a>.</h6>
+        </article>
+    </main>
+    <!-- <div class="bg-animation-container">
+        <div class="bg-animation-bubbles">
+            <span style="--i:15"></span>
+            <span style="--i:22"></span>
+            <span style="--i:8"></span>
+            <span style="--i:19"></span>
+            <span style="--i:13"></span>
+            <span style="--i:24"></span>
+            <span style="--i:7"></span>
+            <span style="--i:20"></span>
+            <span style="--i:11"></span>
+            <span style="--i:17"></span>
+            <span style="--i:21"></span>
+            <span style="--i:14"></span>
+            <span style="--i:25"></span>
+            <span style="--i:12"></span>
+            <span style="--i:18"></span>
+            <span style="--i:9"></span>
+            <span style="--i:16"></span>
+            <span style="--i:10"></span>
+            <span style="--i:23"></span>
+            <span style="--i:6"></span>
+            <span style="--i:5"></span>
+            <span style="--i:17"></span>
+            <span style="--i:24"></span>
+            <span style="--i:8"></span>
+            <span style="--i:13"></span>
+            <span style="--i:22"></span>
+            <span style="--i:11"></span>
+            <span style="--i:19"></span>
+            <span style="--i:14"></span>
+            <span style="--i:21"></span>
+            <span style="--i:6"></span>
+            <span style="--i:20"></span>
+            <span style="--i:25"></span>
+            <span style="--i:15"></span>
+            <span style="--i:10"></span>
+            <span style="--i:7"></span>
+            <span style="--i:18"></span>
+            <span style="--i:12"></span>
+            <span style="--i:23"></span>
+            <span style="--i:9"></span>
+            <span style="--i:16"></span>
+            <span style="--i:5"></span>
+        </div>
+    </div> -->
+
+    <!--This is going to be the desktop background that has the dragable file icons-->
+    <!-- <div class="application" style="width:100px; height:100px; background-color: black;">
+        <div class="minimize-window" onclick="minimizeWindow()"></div>
+    </div> -->
 </body>
+<script src="dist/bundle.js"></script>
 
 </html>
+
+<script>
+
+    function minimizeWindow() {
+        console.log('minimize window');
+        const minimizeWindow = document.querySelector('.application');
+        minimizeWindow.classList.add('minimize-container');
+    }
+</script>

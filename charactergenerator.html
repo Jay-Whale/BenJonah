@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark" />
+    <title>Character Generator</title>
+    <link rel="stylesheet" href="styles/character-generator.css">
+    <link rel="stylesheet" href="dist/bundle.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="scripts/generate-character.js"></script> <!-- Only the generate-character.js file now -->
+</head>
+
+<body>
+    <!-- <div
+        style="max-width: 500px; aspect-ratio: 9 / 16; background-image: url('images/generated-character-background.png'); background-repeat: no-repeat; background-size: cover; display: flex; flex-direction: column; align-items: center;">
+
+        <h1 style="max-width: 400px;"></h1>
+        <div
+            style="margin: 30px; min-width: 200px; max-width: 400px; min-height: 200px; max-height: 400px; background-image: url('https://i.pinimg.com/564x/7b/f5/6d/7bf56d8980914bbbb08f0ee0e70de75c.jpg'); background-position: center; background-repeat: no-repeat; background-size: cover;">
+        </div>
+        <p id="heading" style="max-width: 400px;"></p>
+        <div id="characterDisplay" style="max-width: 400px;">
+            <p id="characterTemplate" style="max-width: 400px;">Generate Something!!!</p>
+        </div>
+        <button id="response" style="max-width: 400px;">Generate Character</button>
+    </div> -->
+
+    <nav class="top">
+        <a>
+            <i>home</i>
+            <div>Home</div>
+        </a>
+        <a>
+            <i>search</i>
+            <div>Search</div>
+        </a>
+        <a>
+            <i>share</i>
+            <div>share</div>
+        </a>
+    </nav>
+    <main class="responsive">
+        <article>
+            <h5>Character Generator</h5>
+            <div id="heading" class="medium-space">Generate a character for your next campaign.</div>
+
+            <!-- image -->
+
+            <h6 id="characterTemplate"></h6>
+
+            <nav class="vertical">
+                <button id="response" class="deep-purple white-text responsive">Generate Something!!!</button>
+            </nav>
+            <details>
+                <summary>Credits</summary>
+                <div>This site is made by Benjamin Jonahs using the <a class="deep-purple-text" href="https://www.beercss.com/">Beers CSS</a> library and inspired by a site by <a class="deep-purple-text" href="https://whothefuckismydndcharacter.com/">Ryan J. Grant.</a> built on the WTFEngine by <a class="deep-purple-text" href="https://github.com/soulwire/WTFEngine">SoulWire</a> <span class="error-container chip round">WARNING: Explicit language on both sites linked</span></div>
+            </details>
+        </article>
+    </main>
+    
+    <script src="dist/bundle.js"></script>
+
+</body>
+
+</html>

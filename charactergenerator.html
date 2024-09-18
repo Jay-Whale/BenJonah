@@ -11,57 +11,56 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="scripts/generate-character.js"></script> <!-- Only the generate-character.js file now -->
+
 </head>
 
 <body>
-    <!-- <div
-        style="max-width: 500px; aspect-ratio: 9 / 16; background-image: url('images/generated-character-background.png'); background-repeat: no-repeat; background-size: cover; display: flex; flex-direction: column; align-items: center;">
-
-        <h1 style="max-width: 400px;"></h1>
-        <div
-            style="margin: 30px; min-width: 200px; max-width: 400px; min-height: 200px; max-height: 400px; background-image: url('https://i.pinimg.com/564x/7b/f5/6d/7bf56d8980914bbbb08f0ee0e70de75c.jpg'); background-position: center; background-repeat: no-repeat; background-size: cover;">
-        </div>
-        <p id="heading" style="max-width: 400px;"></p>
-        <div id="characterDisplay" style="max-width: 400px;">
-            <p id="characterTemplate" style="max-width: 400px;">Generate Something!!!</p>
-        </div>
-        <button id="response" style="max-width: 400px;">Generate Character</button>
-    </div> -->
-
-    <nav class="top">
-        <a>
-            <i>home</i>
-            <div>Home</div>
-        </a>
-        <a>
-            <i>search</i>
-            <div>Search</div>
-        </a>
-        <a>
-            <i>share</i>
-            <div>share</div>
-        </a>
-    </nav>
     <main class="responsive">
         <article>
-            <h5>Character Generator</h5>
-            <div id="heading" class="medium-space">Generate a character for your next campaign.</div>
+            <div class="tabs">
+                <a class="tab-item wrap active" data-ui="#tab-one">Character Generate</a>
+                <a class="tab-item wrap" data-ui="#tab-two">Name Generator</a>
+                <a class="tab-item wrap" data-ui="#tab-three">Saved Characters</a>
+            </div>
 
-            <!-- image -->
+            <div class="page active center-align" id="tab-one">
+                <h5 class="shrinkable-text">Clean Character Generator</h5>
+                <div id="heading" class="medium-space">Generate a character for your next campaign.</div>
 
-            <h6 id="characterTemplate"></h6>
+                <!-- image -->
 
-            <nav class="vertical">
-                <button id="response" class="deep-purple white-text responsive">Generate Something!!!</button>
-            </nav>
-            <details>
-                <summary>Credits</summary>
-                <div>This site is made by Benjamin Jonahs using the <a class="deep-purple-text" href="https://www.beercss.com/">Beers CSS</a> library and inspired by a site by <a class="deep-purple-text" href="https://whothefuckismydndcharacter.com/">Ryan J. Grant.</a> built on the WTFEngine by <a class="deep-purple-text" href="https://github.com/soulwire/WTFEngine">SoulWire</a> <span class="error-container chip round">WARNING: Explicit language on both sites linked</span></div>
-            </details>
+                <h6 id="characterTemplate"></h6>
+
+                <nav class="vertical">
+                    <button id="response" class="deep-purple white-text responsive">Generate Something!!!</button>
+                    <button class="orange10 white-text responsive" id="save-button" data-ui="#tab-three">Save Character!!!</button>
+                </nav>
+                <details>
+                    <summary>Credits</summary>
+                    <div>This site is made by Benjamin Jonahs using the
+                        <a class="deep-purple-text" href="https://www.beercss.com/">Beers CSS</a> library and inspired
+                        by
+                        <a class="red-text" href="https://whothefuckismydndcharacter.com/"><del>Ryan J.
+                                Grant's</del><span class="tooltip error-container chip round">WARNING: Explicit
+                                language</span></a>
+                        site built on the
+                        <a class="red-text" href="https://github.com/soulwire/WTFEngine"><del>WTFEngine</del><span
+                                class="tooltip error-container chip round">WARNING: Explicit language</span></a>
+                    </div>
+                </details>
+            </div>
+            <div class="page" id="tab-two">
+                <h5>Tab 2</h5>
+            </div>
+            <div class="page" id="tab-three">
+                <h5>Tab 3</h5>
+            </div>
+
         </article>
     </main>
-    
+
     <script src="dist/bundle.js"></script>
+    </script>
 
 </body>
 

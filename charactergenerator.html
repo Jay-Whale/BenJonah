@@ -8,6 +8,25 @@
     <title>Character Generator</title>
     <link rel="stylesheet" href="styles/character-generator.css">
     <link rel="stylesheet" href="dist/bundle.css">
+    <style>
+        /* Overlay to block interactions with the rest of the page */
+        .modal-overlay {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            /* Dark transparent background */
+            z-index: 5;
+            /* Make sure it overlays everything */
+            justify-content: center;
+            align-items: center;
+            word-break: break-all;
+        }
+    </style>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="scripts/generate-character.js"></script> <!-- Only the generate-character.js file now -->
@@ -15,51 +34,91 @@
 </head>
 
 <body>
-    <main class="responsive">
+    <nav class="bottom">
+        <a href="./charactergenerator.html">
+            <i>home</i>
+            <div>Home</div>
+        </a>
+        <a>
+            <i>search</i>
+            <div>Search</div>
+        </a>
+        <a>
+            <i>share</i>
+            <div>share</div>
+        </a>
+        <a href="./about.html">
+            <i>badge</i>
+            <div>about</div>
+        </a>
+    </nav>
+    <main class="responsive center-align">
         <article>
-            <div class="tabs">
-                <a class="tab-item wrap active" data-ui="#tab-one">Character Generate</a>
-                <a class="tab-item wrap" data-ui="#tab-two">Name Generator</a>
-                <a class="tab-item wrap" data-ui="#tab-three">Saved Characters</a>
-            </div>
+            <h5 class="shrinkable-text small">Clean Character Generator</h5>
+            <div id="heading" class="small-space">Generate a character for your next campaign.</div>
 
-            <div class="page active center-align" id="tab-one">
-                <h5 class="shrinkable-text">Clean Character Generator</h5>
-                <div id="heading" class="medium-space">Generate a character for your next campaign.</div>
+            <!-- image -->
 
-                <!-- image -->
+            <h6 id="characterTemplate"></h6>
 
-                <h6 id="characterTemplate"></h6>
-
-                <nav class="vertical">
-                    <button id="response" class="deep-purple white-text responsive">Generate Something!!!</button>
-                    <button class="orange10 white-text responsive" id="save-button" data-ui="#tab-three">Save Character!!!</button>
-                </nav>
-                <details>
-                    <summary>Credits</summary>
-                    <div>This site is made by Benjamin Jonahs using the
-                        <a class="deep-purple-text" href="https://www.beercss.com/">Beers CSS</a> library and inspired
-                        by
-                        <a class="red-text" href="https://whothefuckismydndcharacter.com/"><del>Ryan J.
-                                Grant's</del><span class="tooltip error-container chip round">WARNING: Explicit
-                                language</span></a>
-                        site built on the
-                        <a class="red-text" href="https://github.com/soulwire/WTFEngine"><del>WTFEngine</del><span
-                                class="tooltip error-container chip round">WARNING: Explicit language</span></a>
-                    </div>
-                </details>
-            </div>
-            <div class="page" id="tab-two">
-                <h5>Tab 2</h5>
-            </div>
-            <div class="page" id="tab-three">
-                <h5>Tab 3</h5>
-            </div>
-
+            <nav class="vertical">
+                <button id="response" class="deep-purple white-text responsive">Generate Something!!!</button>
+                <button class="orange10 white-text responsive" id="save-button">Save
+                    Character!!!</button>
+            </nav>
+            <details>
+                <summary>Credits</summary>
+                <div>This site is made by Benjamin Jonahs using the
+                    <a class="deep-purple-text" href="https://www.beercss.com/">Beers CSS</a> library and inspired
+                    by
+                    <a class="red-text"onclick="return openModal('https://whothefuckismydndcharacter.com/')"><del>Ryan J.
+                            Grant's</del></a>
+                    site built on the
+                    <a class="red-text"
+                        onclick="return openModal('https://github.com/soulwire/WTFEngine')"><del>WTFEngine</del></a>
+                </div>
+            </details>
         </article>
     </main>
 
+    <div id="modal-overlay" class="modal-overlay">
+        <article>
+            <div id="modal-content">
+                <h6 id="banned-site"></h6>
+                <p class="white-text" style="word-break: keep-all;">contains explicit language. Are you sure you want to proceed?</p>
+                <nav class="vertical">
+                    <button id="response" class="deep-purple white-text responsive"
+                        onclick="proceed()">Proceed</button>
+                    <button class="orange10 white-text responsive" id="save-button"
+                        onclick="closeModal()">Cancel</button>
+                </nav>
+            </div>
+        </article>
+    </div>
+
     <script src="dist/bundle.js"></script>
+    <script>
+        let linkToOpen = ""; // Store the URL here
+
+        // Function to open the modal and pass the link
+        function openModal(link) {
+            console.log(link);
+            linkToOpen = link; // Store the passed link
+            document.getElementById('modal-overlay').style.display = 'flex'; // Show the modal
+            document.getElementById('banned-site').innerHTML = link; // Display the link in the modal
+        }
+
+        // Function to proceed and open the passed link in a new window
+        function proceed() {
+            window.open(linkToOpen, '_self'); // Open the stored URL
+            closeModal(); // Close the modal
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('modal-overlay').style.display = 'none'; // Hide the modal
+        }
+
     </script>
 
 </body>

@@ -7,84 +7,128 @@
     <meta name="color-scheme" content="light dark" />
     <title>Character Generator</title>
     <link rel="stylesheet" href="dist/bundle.css">
+
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+    </style>
+
 </head>
 
-<body>
-    <nav class="bottom">
-        <a href="./charactergenerator.html">
-            <i>home</i>
-            <div>Home</div>
-        </a>
-        <a>
-            <i>search</i>
-            <div>Search</div>
-        </a>
-        <a>
-            <i>share</i>
-            <div>share</div>
-        </a>
+<body></body>
+<nav class="top no-space">
+    <button class="icon transparent vertical">
+        <i>menu</i>
+        <span>menu</span>
+        <menu class="no-wrap bottom large-width hidden" id="invisible-menu">
+            <a>Rules</a>
+            <a>Classes</a>
+            <a>Races</a>
+            <a>Backgrounds</a>
+            <a>Feats</a>
+            <a>Skills</a>
+            <a>Spells</a>
+            <a>Monsters</a>
+            <a>Items</a>
+            <a>Equipment</a>
+            <a>Conditions</a>
+            <a>Settings</a>
+        </menu>
+    </button>
+    <button class="icon transparent vertical" onclick="navigateTo('./charactergenerator.html')">
+        <i>home</i>
+        <div>home</div>
+    </button>
+    <button class="icon transparent vertical" onclick="navigateTo('./save.html')">
+        <i>save</i>
+        <div>save</div>
+    </button>
+    <button class="icon transparent vertical" onclick="navigateTo('./about.html')">
+        <i>badge</i>
+        <div>about</div>
+    </button>
+</nav>
+<main class="responsive">
+    <article>
+        <h5 class="center-align">The Maker</h5>
+        <span class="center-align">
+            <p>Supreme power of this code</p>
+        </span>
+        <img class="responsive" src="./images/orc-wizard-bladesinger.png" alt="Author">
+        <p><b>Name: </b>Balda gunulbar <em>(Benjmain Jonahs)</em><span class="tooltip">Full Orc, Bladsinger
+                Wizard</span></p>
 
-        <a href="./about.html">
-            <i>badge</i>
-            <div>about</div>
-        </a>
-    </nav>
-    <main class="responsive">
-        <article>
-            <h5 class="center-align">The Maker</h5>
-            <span class="center-align">
-                <p>Supreme power of this code</p>
-            </span>
-            <img class="responsive" src="./images/orc-wizard-bladesinger.png" alt="Author">
-            <p><b>Name: </b>Balda gunulbar <em>(Benjmain Jonahs)</em><span class="tooltip">Full Orc, Bladsinger Wizard</span></p>
-            
+        <p>
+            I am a junior, self-taught developer with a passion for creating clean, Christian-oriented tools on the
+            web.
+            My focus is on <strong>.NET 8's MAUI Blazor Hybrid</strong>, where I’ve developed a fair amount of
+            knowledge
+            through hands-on experience and an eagerness to learn.
+        </p>
+
+        <h5 class="center-align">How It All Began</h5>
+        <p>
+            My father, a software engineer for as long as I can remember, introduced me to programming. His
+            influence
+            and my curiosity led me to develop a deep interest in coding, especially in building tools and
+            applications
+            that align with my Christian values.
+        </p>
+
+        <h5 class="center-align">What I’m Proud Of</h5>
+        <p>
+            One of my proudest achievements is this site and my work on
+            <a href="https://sojourn.network" target="_blank" rel="noopener noreferrer">Sojourn.network</a>,
+            a Biblical hospitality network I developed with my father. These projects represent my drive for clean
+            and Christian, internet-based tools.
+        </p>
+
+        <h5 class="center-align">When I'm Not Coding</h5>
+        <p>
+            Outside of coding, I spend my time with family or enjoy camping in nature.
+        </p>
+
+        <h5 class="center-align">Looking Ahead</h5>
+        <p>
+            As I continue to grow as a developer, my goal is to expand my skills, build my portfolio, and create
+            tools that
+            guide people to Christ.
+        </p>
+
+        <footer>
             <p>
-                I am a junior, self-taught developer with a passion for creating clean, Christian-oriented tools on the
-                web.
-                My focus is on <strong>.NET 8's MAUI Blazor Hybrid</strong>, where I’ve developed a fair amount of
-                knowledge
-                through hands-on experience and an eagerness to learn.
+                Feel free to check out my work on
+                <a class="deep-purple-text" href="https://github.com/jay-whale/" target="_self"
+                    rel="noopener noreferrer">GitHub.</a>
             </p>
+        </footer>
+        <!--  -->
+    </article>
+</main>
+</div>
+<script src="dist/bundle.js"></script>
+<script>
+    function navigateTo(url) {
+        window.location.href = url;
+    }
 
-            <h5 class="center-align">How It All Began</h5>
-            <p>
-                My father, a software engineer for as long as I can remember, introduced me to programming. His
-                influence
-                and my curiosity led me to develop a deep interest in coding, especially in building tools and
-                applications
-                that align with my Christian values.
-            </p>
+    document.querySelector('.icon').addEventListener('click', function () {
+        const menu = document.querySelector('menu');
 
-            <h5 class="center-align">What I’m Proud Of</h5>
-            <p>
-                One of my proudest achievements is this site and my work on
-                <a href="https://sojourn.network" target="_blank" rel="noopener noreferrer">Sojourn.network</a>,
-                a Biblical hospitality network I developed with my father. These projects represent my drive for clean and Christian, internet-based tools.
-            </p>
-
-            <h5 class="center-align">When I'm Not Coding</h5>
-            <p>
-                Outside of coding, I spend my time with family or enjoy camping in nature.
-            </p>
-
-            <h5 class="center-align">Looking Ahead</h5>
-            <p>
-                As I continue to grow as a developer, my goal is to expand my skills, build my portfolio, and create
-                tools that
-                guide people to Christ.
-            </p>
-
-            <footer>
-                <p>
-                    Feel free to check out my work on
-                    <a class="deep-purple-text" href="https://github.com/jay-whale/" target="_self" rel="noopener noreferrer">GitHub.</a>
-                </p>
-            </footer>
-            <!--  -->
-        </article>
-    </main>
-    </div>
-    <script src="dist/bundle.js"></script>
+        if (menu.classList.contains('visible')) {
+            menu.classList.remove('visible');
+            menu.classList.add('hidden');
+        } else {
+            menu.classList.remove('hidden');
+            menu.classList.add('visible');
+        }
+    });
+</script>
 </body>
 
 </html>

@@ -36,7 +36,7 @@
         <div class="grey9 large-padding round">
             <nav class="no-space margin">
                 <div class="max field border round">
-                    <select id="type-filter" class="max field border round" onchange="filterItems()">
+                    <select id="category-filter" class="max field border round" onchange="filterItems()">
                         <!--These are the filters in 5e tools-->
                         <option value="">All Types</option>
                         <option value="armor">Armor</option>
@@ -71,25 +71,46 @@
 
             <nav class="no-space margin">
                 <div class="max field border round">
-                    <select id="rarity-filter" onchange="filterItems()">
-                        <option value="">All Rarities</option>
-                        <option value="common">Common</option>
-                        <option value="uncommon">Uncommon</option>
-                        <option value="rare">Rare</option>
-                        <option value="very rare">Very Rare</option>
-                        <option value="legendary">Legendary</option>
+                    <select id="tags-filter" onchange="filterItems()">
+                        <option value="">All Tags</option>
+                        <option value="Combat">Combat</option>
+                        <option value="Damage">Damage</option>
+                        <option value="Healing">Healing</option>
+                        <option value="Exploration">Exploration</option>
+                        <option value="Movement">Movement</option>
+                        <option value="Protection">Protection</option>
+                        <option value="Utility">Utility</option>
+                        <option value="Consumable">Consumable</option>
+                        <option value="Magic">Magic</option>
+                        <option value="Weapon">Weapon</option>
+                        <option value="Armor">Armor</option>
+                        <option value="Support">Support</option>
+                        <option value="Stealth">Stealth</option>
+                        <option value="Summoning">Summoning</option>
+                        <option value="Spellcasting">Spellcasting</option>
+                        <option value="Damage Resistance">Damage Resistance</option>
+                        <option value="Ranged">Ranged</option>
+                        <option value="Melee">Melee</option>
+                        <option value="Light">Light</option>
+                        <option value="Darkvision">Darkvision</option>
+                        <option value="Communication">Communication</option>
+                        <option value="Environment">Environment</option>
+                        <option value="Detection">Detection</option>
+                        <option value="Transportation">Transportation</option>
+                        <option value="Illusion">Illusion</option>
                     </select>
                 </div>
             </nav>
 
             <nav class="no-space margin">
                 <div class="max field border left-round">
-                    <input type="number" id="min-cost" placeholder="Min Cost" value="0" oninput="filterItems()">
-                    <label class="large-text left-margin">Min Cost</label>
+                    <input type="number" id="min-price" placeholder="Min Price" value="0" onchange="filterItems()">
+                    <label class="large-text left-margin">Min price</label>
                 </div>
                 <div class="max field border right-round">
-                    <input type="number" id="max-cost" placeholder="Max Cost" value="999999999999">
-                    <label class="large-text left-margin">Max Cost</label>
+                    <input type="number" id="max-price" placeholder="Max Price" value="999999999999"
+                        onchange="filterItems()">
+                    <label class="large-text left-margin">Max price</label>
                 </div>
             </nav>
 
@@ -130,26 +151,30 @@
     <script>
         let allData = [];
 
-        function updateCostRange() {
-            const minCost = document.getElementById('min-cost').value;
-            const maxCost = document.getElementById('max-cost').value;
-            document.getElementById('cost-display').innerText = `Cost Range: ${minCost} - ${maxCost} GP`;
+        function updatePriceRange() {
+            const minPrice = document.getElementById('min-price').value;
+            const maxPrice = document.getElementById('max-price').value;
+            document.getElementById('price-display').innerText = `Price Range: ${minPrice} - ${maxPrice} GP`;
             filterItems();
         }
 
         function filterItems() {
             const searchName = document.getElementById('search-name').value.toLowerCase();
-            const typeFilter = document.getElementById('type-filter').value;
-            const rarityFilter = document.getElementById('rarity-filter').value;
-            const minCost = document.getElementById('min-cost').value;
-            const maxCost = document.getElementById('max-cost').value;
+            const categoryFilter = document.getElementById('category-filter').value;
+            const tagsFilter = document.getElementById('tags-filter').value;
+            const minPrice = parseFloat(document.getElementById('min-price').value) || 0; // Ensure the price is a number, default to 0 if empty
+            const maxPrice = parseFloat(document.getElementById('max-price').value) || 999999999999; // Default max price
 
             const filteredData = allData.filter(item => {
+                const itemCost = parseFloat(item.cost); // Convert item cost to a number
+                const itemTags = item.tags ? item.tags.toLowerCase() : ""; // Safely handle if item.tags is null or undefined
+
+                // Filter based on name, category, tags, and price range
                 return (
                     item.name.toLowerCase().includes(searchName) &&
-                    (typeFilter === "" || item.type.toLowerCase().includes(typeFilter.toLowerCase())) &&
-                    (rarityFilter === "" || item.rarity.toLowerCase().includes(rarityFilter.toLowerCase())) &&
-                    (item.cost >= minCost && item.cost <= maxCost)
+                    (categoryFilter === "" || item.category.toLowerCase().includes(categoryFilter.toLowerCase())) &&
+                    (tagsFilter === "" || itemTags.includes(tagsFilter.toLowerCase())) && // Use null-safe itemTags
+                    !isNaN(itemCost) && itemCost >= minPrice && itemCost <= maxPrice // Price filtering with valid numbers
                 );
             });
 
@@ -158,8 +183,13 @@
 
         function displayItems(data) {
             console.log(data);
+            console.warn('Displaying items');
             let article = document.querySelector('article');
             article.innerHTML = "";  // Clear previous results
+            //add a p tag that displays the number of items
+            let p = document.createElement('p');
+            p.innerText = `${data.length} items`;
+            article.appendChild(p);
             data.forEach(element => {
                 let div = document.createElement('div');
                 div.classList.add('card');
@@ -167,10 +197,10 @@
             <details>
                 <summary><span class="large-text">${element.name}</span></summary>
                 <div class="grey9 large-padding round">
-                    <div class="bottom-margin"><h6 class="orange-text no-padding no-margin">Type:</h6> <p class="large-text no-padding no-margin">${element.type}</p></div>
-                    <div class="bottom-margin"><h6 class="orange-text no-padding no-margin">Rarity:</h6> <p class="large-text no-padding no-margin">${element.rarity}</p></div>
-                    <div class="bottom-margin"><h6 class="orange-text no-padding no-margin">Cost:</h6> <p class="large-text no-padding no-margin">${element.cost} <span class="small-text">GP</span></p></div>
-                    <div class="bottom-margin"><h6 class="orange-text no-padding no-margin">Attunement:</h6> <p class="large-text no-padding no-margin">${element.attunement}</p></div>
+                    <div class="bottom-margin"><h6 class="orange-text no-padding no-margin">Type:</h6> <p class="large-text no-padding no-margin">${element.category}</p></div>
+                    <div class="bottom-margin"><h6 class="orange-text no-padding no-margin">Rarity:</h6> <p class="large-text no-padding no-margin">${element.tags}</p></div>
+                    <div class="bottom-margin"><h6 class="orange-text no-padding no-margin">Price:</h6> <p class="large-text no-padding no-margin">${element.cost} <span class="small-text">GP</span></p></div>
+                    <div class="bottom-margin"><h6 class="orange-text no-padding no-margin">Attunement:</h6> <p class="large-text no-padding no-margin">${element.weight}</p></div>
                     <div class="bottom-margin"><h6 class="orange-text no-padding no-margin">Description:</h6> <p class="large-text no-padding no-margin">${parseDescription(element.desc)}</p></div>
                 </div>
             </details>
@@ -179,7 +209,7 @@
             });
         }
 
-        fetch('https://raw.githubusercontent.com/jay-whale/dungeon-data/main/magic-items.json')
+        fetch('https://raw.githubusercontent.com/jay-whale/dungeon-data/main/items.json')
             .then(response => response.json())
             .then(data => {
                 document.getElementById('loading-message').style.display = 'none'; // Hide loading message
@@ -189,10 +219,10 @@
 
         function resetFilters() {
             document.getElementById('search-name').value = '';
-            document.getElementById('type-filter').selectedIndex = 0;
-            document.getElementById('rarity-filter').selectedIndex = 0;
-            document.getElementById('min-cost').value = 0;
-            document.getElementById('max-cost').value = 999999999999;
+            document.getElementById('category-filter').selectedIndex = 0;
+            document.getElementById('tags-filter').selectedIndex = 0;
+            document.getElementById('min-price').value = 0;
+            document.getElementById('max-price').value = 999999999999;
 
             // Re-apply the filters after resetting (show all items)
             filterItems();

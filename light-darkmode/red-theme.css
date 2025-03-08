@@ -1,0 +1,129 @@
+:root {
+    --primary-color: #3c2f2a;    /* Dark Brown - Main Background */
+    --secondary-color: #4f3b32;  /* Darker Warm Brown - Header */
+    --tertiary-color: #d1c8b8;   /* Light Beige - Text */
+    --quaternary-color: #6e4b3a; /* Muted Brick Red - Accent */
+    --quinary-color: #2c2a21;    /* Very Dark Brown - Footer */
+}
+
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+}
+
+.page-title {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.open-flyout-btn {
+    background-color: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+body {
+    background-color: var(--primary-color);
+    color: var(--tertiary-color);
+}
+
+
+/* Mobile-first (default) */
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* One column for mobile */
+    gap: 1rem;
+}
+
+.item {
+    background: var(--quaternary-color);
+    padding: 1rem;
+}
+
+/* Footer */
+footer {
+    background-color: var(--quinary-color);
+    color: var(--tertiary-color);
+    padding: 10px;
+    text-align: center;
+}
+
+.flyout {
+    background-color: var(--tertiary-color);
+    color: var(--primary-color);
+    position: fixed;
+    top: 0;
+    /* Initially off-screen to the right */
+    right: -100vw;
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+    /* Smooth transition for the flyout */
+}
+
+/* State when the flyout is visible (slides in) */
+.flyout.open {
+    right: 0;
+    /* Moves the flyout to the right side of the screen */
+}
+
+/* For Medium Screens (e.g., tablets) */
+@media (min-width: 768px) {
+    .container {
+        grid-template-columns: repeat(2, 1fr);
+        /* Two columns for medium screens */
+    }
+
+    .flyout {
+        position: fixed;
+        right: -500px;
+        width: 500px;
+    }
+}
+
+/* For Larger Screens (e.g., desktops) */
+@media (min-width: 1024px) {
+    body {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        /* One column for mobile */
+        /* gap: 1rem; */
+    }
+
+    .content {
+        grid-column: span 2;
+    }
+
+    /* Flyout should now occupy the entire width of the third column */
+    .flyout {
+        position: inherit;
+        grid-column: 3;  /* Span to the third column */
+        width: 100%;  /* Full width of the third column */
+        box-shadow: none;  /* Remove shadow for desktop view */
+    }
+
+    .open-flyout-btn {
+        display: none;
+    }
+
+    .container {
+        grid-template-columns: repeat(3, 1fr);
+        /* Three columns for large screens */
+    }
+}

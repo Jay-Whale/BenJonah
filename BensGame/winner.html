@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correct!</title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: limegreen;
+            font-size: 100px;
+            font-weight: bold;
+            text-shadow: 5px 5px 10px rgba(0, 255, 0, 0.8);
+            animation: bounce 1s infinite alternate;
+        }
+
+        h2 {
+            color: limegreen;
+            font-size: 100px;
+            font-weight: bold;
+            text-shadow: 5px 5px 10px rgba(0, 255, 0, 0.8);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0%);
+            }
+
+            100% {
+                transform: translateY(-20%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>You WIN!</h1>
+    <a href="rules.html">
+        <h2>Go Home!</h2>
+    </a>
+</body>
+
+</html>

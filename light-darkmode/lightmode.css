@@ -18,6 +18,102 @@
     margin: 0;
 }
 
+* {
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+  }
+  
+  /*▼▼▼Menu Button▼▼▼*/
+  
+  *:focus {
+    outline: none;
+  }
+  
+  #menu-btn {
+    width: 10vw; /* Scales with viewport width */
+    max-width: 3em;
+    min-width: 3em;
+    overflow: hidden;
+  }
+  
+  #menu-checkbox {
+    display: none;
+  }
+  
+  #menu-label {
+    position: relative;
+    display: block;
+    height: 2rem; /* Responsive height */
+    cursor: pointer;
+  }
+  
+  #menu-label:before,
+  #menu-label:after,
+  #menu-bar {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 0.4rem; /* Scales with font size */
+    background-color: var(--tertiary-color);
+  }
+  
+  #menu-label:before,
+  #menu-label:after {
+    content: "";
+    transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) left;
+  }
+  
+  #menu-label:before {
+    top: 0;
+  }
+  
+  #menu-label:after {
+    top: 40%;
+  }
+  
+  #menu-bar {
+    top: 80%;
+  }
+  
+  #menu-bar:before {
+    content: "MENU";
+    position: absolute;
+    top: 0.5rem;
+    right: 0;
+    left: 0;
+    color: var(--tertiary-color);
+    font-size: 1rem;  /*clamp(0.7rem, 2vw, 1rem); Responsive text size */
+    font-weight: bold;
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+    text-align: center;
+  }
+  
+  #menu-checkbox:checked + #menu-label:before {
+    left: -100%;
+  }
+  
+  #menu-checkbox:checked + #menu-label:after {
+    left: 100%;
+  }
+  
+  #menu-checkbox:checked + #menu-label #menu-bar:before {
+    animation: moveUpThenDown 0.8s ease 0.2s forwards;
+  }
+  
+  @keyframes moveUpThenDown {
+    0% {
+      top: -0.5rem;
+    }
+    50% {
+      top: -1.75rem;
+    }
+    100% {
+      top: -1.25rem;
+    }
+  }
+
+  /*▲▲▲Menu Button▲▲▲*/
+
 /* Header */
 header {
     display: flex;
@@ -34,8 +130,6 @@ header {
 }
 
 .open-flyout-btn {
-    background-color: none;
-    border: none;
     font-size: 2rem;
     cursor: pointer;
 }
@@ -118,9 +212,12 @@ footer {
     /* Flyout should now occupy the entire width of the third column */
     .flyout {
         position: inherit;
-        grid-column: 3;  /* Span to the third column */
-        width: 100%;  /* Full width of the third column */
-        box-shadow: none;  /* Remove shadow for desktop view */
+        grid-column: 3;
+        /* Span to the third column */
+        width: 100%;
+        /* Full width of the third column */
+        box-shadow: none;
+        /* Remove shadow for desktop view */
     }
 
     .open-flyout-btn {
@@ -131,4 +228,31 @@ footer {
         grid-template-columns: repeat(3, 1fr);
         /* Three columns for large screens */
     }
+}
+
+/* Triangle */
+.polygon-1 {
+    background-color: #121212;
+    width: 50px;
+    height: 50px;
+    /* -webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 100%); */
+    clip-path: polygon(0% 0%, 50% 0%, 50% 25%, 100% 25%, 100% 100%, 0% 100%);
+}
+
+/* X */
+.polygon-2 {
+    background-color: #121212;
+    width: 50px;
+    height: 50px;
+    -webkit-clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+    clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+}
+
+/* Star */
+.polygon-3 {
+    background-color: #121212;
+    width: 50px;
+    height: 50px;
+    -webkit-clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
 }

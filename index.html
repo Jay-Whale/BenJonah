@@ -4,26 +4,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=games.html">
     <title>BenJonah</title>
-    <!-- <link rel="stylesheet" href="styles/index-style.css"> -->
-    <link rel="stylesheet" href="dist/bundle.css">
-    <style>
-    </style>
+    <link href="light-darkmode/darkmode.css" rel="stylesheet" id="theme-link">
 </head>
 
 <body>
     <main>
-        <article class="center-align">
-            <img class="under-construction-img" src="images/UnderConstruction.svg">
-            <h6 class="white-text">If you are not redirected, <a class="deep-purple-text"
-                    href="games.html">click here</a>.</h6>
+        <header>
+            <h1>Ben Jonah</h1>
+            <nav>Somewhere!</nav>
+        </header>
+
+        <article class="d-flex vh-90">
+            <style>
+                * {
+                    font-family: "Bahnschrift";
+                    src: url(./fonts/Bahnschrift-Font-Family/BAHNSCHRIFT.TTF);
+                }
+
+                .d-flex {
+                    display: flex;
+                }
+
+                .left {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 50%;
+                }
+
+                .right {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 50%;
+                }
+
+                .vh-90 {
+                    height: 90vh;
+                }
+
+                div.right img {
+                    width: 80%;
+                    border-radius: 45%;
+                }
+
+                h1 {
+                    text-align: center;
+                }
+            </style>
+            <div class="left">
+                <div>
+                    <div style="background-color: orange; width: 100%; height: 50px;">
+                        <h1>Hi, I'm Benjamin</h1>
+                    </div>
+                    <svg width="100%" height="50%">
+                        <text x="50%" y="40%" text-anchor="middle" fill="white" font-size="4em">
+                            I'M A WEB
+                        </text>
+
+                        <text x="50%" y="85%" text-anchor="middle" fill="white" font-size="5em">
+                            ARTIST
+                        </text>
+                    </svg>
+                </div>
+            </div>
+            <div class="right"><img src="./images/orc-wizard-bladesinger.png"></div>
         </article>
+
+        <footer>Goodbye World!</footer>
     </main>
+
+    <script>
+        fitText(document.querySelector("h1"), 0.38);
+    </script>
+
 </body>
-<script src="dist/bundle.js"></script>
+
 
 </html>
-
-<script>
-</script>

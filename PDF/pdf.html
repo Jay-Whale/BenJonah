@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/pdf-lib"></script>
+</head>
+
+<body>
+    <h2>Invoice Generator</h2>
+
+    <form id="invoiceForm">
+        <label>Bill To: <input type="text" id="billTo" value=""></label><br>
+        <label>Address: <input type="text" id="address" value=""></label><br>
+        <label>City: <input type="text" id="city" value=""></label>
+        <label>State: <input type="text" id="state" value=""></label>
+        <label>Zip: <input type="text" id="zip" value=""></label><br><br>
+
+        <h3>Invoice Items</h3>
+
+        <button type="button" onclick="removeLastItem()">Remove Last Item</button>
+        <button type="button" onclick="addItem()">Add Item</button><br><br>
+
+        <div id="itemsContainer">
+            <div class="itemRow">
+                <label>Date: <input type="date" class="itemDate"></label>
+                <label>Description: <input type="text" class="itemDesc" value="Mowing"></label>
+                <label>Price: <input type="number" class="itemPrice" value="100"></label>
+            </div>
+        </div>
+        <br />
+
+        <button type="button" onclick="generatePDF()">Generate PDF</button>
+    </form>
+
+    <iframe id="pdfViewer" style="width: 100%; height: 500px;"></iframe>
+    <button id="downloadPdf">Download PDF</button>
+    <button id="printPdf">Print PDF</button>
+
+    <script>
+        // Set default date to today
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".itemDate").forEach(input => {
+                input.value = new Date().toISOString().split('T')[0]; // Today's date
+            });
+        });
+
+        function removeLastItem() {
+            const container = document.getElementById("itemsContainer");
+            if (container.children.length > 1) { // Ensure at least one item remains
+                container.removeChild(container.lastChild);
+            } else {
+                alert("At least one item is required.");
+            }
+        }
+
+        function addItem() {
+            const container = document.getElementById("itemsContainer");
+            if (container.children.length < 10) { // Limit to 10 items
+                const itemDiv = document.createElement("div");
+                itemDiv.classList.add("itemRow");
+                itemDiv.innerHTML = `
+                    <label>Date: <input type="date" class="itemDate"></label>
+                    <label>Description: <input type="text" class="itemDesc"></label>
+                    <label>Price: <input type="number" class="itemPrice"></label>
+                `;
+                container.appendChild(itemDiv);
+            } else {
+                alert("Maximum 10 items allowed.");
+            }
+        }
+
+        async function generatePDF() {
+            const pdfDoc = await PDFLib.PDFDocument.create();
+            const page = pdfDoc.addPage([612, 792]); // Letter size (8.5" x 11")
+            const { width, height } = page.getSize();
+            const font = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+
+            // Fetch input values
+            const billTo = document.getElementById("billTo").value;
+            const address = document.getElementById("address").value;
+            const city = document.getElementById("city").value;
+            const state = document.getElementById("state").value;
+            const zip = document.getElementById("zip").value;
+
+            // Fetch items
+            const itemRows = document.querySelectorAll(".itemRow");
+            let items = [];
+            let totalPrice = 0;
+
+            itemRows.forEach(row => {
+                const date = row.querySelector(".itemDate").value || new Date().toISOString().split('T')[0];
+                const desc = row.querySelector(".itemDesc").value || "N/A";
+                const price = parseFloat(row.querySelector(".itemPrice").value) || 0;
+                totalPrice += price; // Sum up total price
+                items.push({ date, desc, price });
+            });
+
+            function drawHeader(x, y) {
+                const currentDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+                page.drawText(`Date: ${currentDate}`, { x: x + 350, y: y - 10, size: 10, font, color: PDFLib.rgb(0, 0, 0) });
+
+
+                page.drawRectangle({ x, y, width: 512, height: 40, color: PDFLib.rgb(0.9, 0.9, 0.9) });
+                page.drawText("Patriot's Mowing", { x: x + 5, y: y + 10, size: 30, font, color: PDFLib.rgb(0, 0, 0) });
+                page.drawText('INVOICE', { x: x + 350, y: y + 10, size: 30, font, color: PDFLib.rgb(0, 0.5, 0) });
+            }
+
+            function drawBillTo(x, y) {
+                page.drawText('Bill To:', { x, y, size: 12, font, color: PDFLib.rgb(0, 0.5, 0) });
+                page.drawText(billTo, { x, y: y - 15, size: 10 });
+                page.drawText(address, { x, y: y - 30, size: 10 });
+                page.drawText(`${city}, ${state} ${zip}`, { x, y: y - 45, size: 10 });
+            }
+
+            function drawTable(x, y) {
+                const rowHeight = 30;
+                page.drawRectangle({ x, y, width: 512, height: rowHeight, color: PDFLib.rgb(0.8, 0.8, 0.8) });
+
+                // Headers
+                const headers = ['#', 'DATE', 'DESCRIPTION', 'PRICE'];
+                const colWidths = [20, 100, 280, 100];
+                let xPos = x;
+                headers.forEach((header, i) => {
+                    page.drawText(header, { x: xPos + 10, y: y + 10, size: 12, font, color: PDFLib.rgb(0, 0, 0) });
+                    xPos += colWidths[i];
+                });
+
+                // Draw each item
+                let rowY = y - rowHeight;
+                items.forEach((item, i) => {
+                    page.drawRectangle({ x, y: rowY, width: 512, height: rowHeight, color: i % 2 === 0 ? PDFLib.rgb(1, 1, 1) : PDFLib.rgb(0.95, 0.95, 0.95) });
+
+                    let xTextPos = x;
+                    const rowData = [`${i + 1}`, item.date, item.desc, `$${item.price.toFixed(2)}`];
+                    rowData.forEach((text, j) => {
+                        page.drawText(text, { x: xTextPos + 10, y: rowY + 10, size: 10, font, color: PDFLib.rgb(0, 0, 0) });
+                        xTextPos += colWidths[j];
+                    });
+
+                    rowY -= rowHeight;
+                });
+
+                return rowY;
+            }
+
+            function drawTotal(x, y) {
+                page.drawText(`Total: $${totalPrice.toFixed(2)}`, { x: x + 400, y: y - 40, size: 14, font, color: PDFLib.rgb(0, 0, 0) });
+            }
+
+            function drawThankyou(x, y) {
+                page.drawRectangle({ x, y, width: 512, height: 30, color: PDFLib.rgb(0.8, 1, 0.8) });
+                page.drawText('Thank you for your business!', { x: x + 155, y: y + 10, size: 14, font, color: PDFLib.rgb(0, 0, 0) });
+            }
+
+            drawHeader(50, height - 100);
+            drawBillTo(75, height - 150);
+            const lastRowY = drawTable(50, height - 250);
+            drawTotal(50, lastRowY);
+            drawThankyou(50, 50);
+
+            const pdfBytes = await pdfDoc.save();
+            const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+
+            document.getElementById('pdfViewer').src = pdfUrl;
+
+            // Enable download/print buttons
+            document.getElementById('downloadPdf').onclick = () => {
+                const link = document.createElement('a');
+                link.href = pdfUrl;
+                link.download = 'invoice.pdf';
+                link.click();
+            };
+
+            document.getElementById('printPdf').onclick = () => {
+                const printWindow = window.open(pdfUrl, '_blank');
+                printWindow.print();
+            };
+        }
+    </script>
+</body>
+
+</html>

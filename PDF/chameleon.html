@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/pdf-lib"></script>
+    <title>Chameleon</title>
+</head>
+
+<body>
+    <h2>Chameleon Cards</h2>
+    <h3>Custom Topic and Items</h3>
+    <form id="customForm">
+        <div>
+            <label for="topicTitle">Topic Title:</label>
+            <input type="text" id="topicTitle" name="topicTitle" required>
+        </div>
+        <h4>Cell Items:</h4>
+        <div id="cellInputs">
+        </div>
+        <button type="button" id="generateCustomPdf">Generate Custom PDF</button>
+    </form>
+
+    <h3>Choose from Pre-generated Topics</h3>
+    <select id="pregeneratedTopics">
+        <option value="">Select a Topic</option>
+        <option value="BibleCharacters">Bible Characters</option>
+        <option value="Colors">Colors</option>
+        <option value="FemaleBibleCharacters">Female Bible Characters</option>
+        <option value="MaleBibleCharacters">Male Bible Characters</option>
+        <option value="Disney">Disney</option>
+        <option value="ScoobyDoo">Scooby-Doo</option>
+        <option value="LordOfTheRings">Lord of the Rings</option>
+        <option value="Narnia">Narnia</option>
+        <option value="ProgrammingLanguages">Programming Languages</option>
+        <option value="Body">Body</option>
+        <option value="Languages">Languages</option>
+        <option value="FastFoodRestaurants">Fast-food Restaurants</option>
+    </select>
+    <button id="generatePregeneratedPdf" disabled>Generate PDF</button>
+
+    <hr>
+
+    <iframe id="pdfViewer" style="width: 100%; height: 500px;"></iframe>
+    <button id="downloadPdf">Download PDF</button>
+    <button id="printPdf">Print PDF</button>
+
+    <script>
+
+        const pregeneratedData = {
+            BibleCharacters: [
+                "Adam", "Eve", "Noah", "Abraham", "Sarah", "Isaac", "Jacob", "Rachel",
+                "Moses", "Aaron", "David", "Solomon", "Isaiah", "Jeremiah", "Peter", "Paul"
+            ],
+            Colors: [
+                "Red", "Blue", "Green", "Yellow", "Orange", "Purple", "Pink", "Brown",
+                "Black", "White", "Gray", "Cyan", "Magenta", "Lime", "Teal", "Indigo"
+            ],
+            FemaleBibleCharacters: [
+                "Eve", "Sarah", "Rebekah", "Rachel", "Leah", "Miriam", "Deborah", "Ruth",
+                "Naomi", "Esther", "Hannah", "Abigail", "Elizabeth", "Mary", "Martha", "Mary Magdalene"
+            ],
+            MaleBibleCharacters: [
+                "Adam", "Noah", "Abraham", "Isaac", "Jacob", "Joseph", "Moses", "Aaron",
+                "Joshua", "Samuel", "David", "Solomon", "Elijah", "Isaiah", "Peter", "Paul"
+            ],
+            Disney: [
+                "Mickey Mouse", "Minnie Mouse", "Donald Duck", "Goofy", "Pluto", "Cinderella",
+                "Snow White", "Sleeping Beauty", "Belle", "Ariel", "Simba", "Elsa", "Anna",
+                "Woody", "Buzz Lightyear", "Stitch"
+            ],
+            ScoobyDoo: [
+                "Scooby-Doo", "Shaggy", "Velma", "Fred", "Daphne", "Mystery Machine",
+                "Scooby Snacks", "Ghost", "Monster", "Trap", "Jinkies!", "Ruh-roh!",
+                "Zoinks!", "Haunted House", "Clues", "Unmasking"
+            ],
+            LordOfTheRings: [
+                "Frodo", "Sam", "Gandalf", "Aragorn", "Legolas", "Gimli", "Merry", "Pippin",
+                "Sauron", "Gollum", "The Ring", "Middle-earth", "Shire", "Rivendell", "Mordor", "Orc"
+            ],
+            Narnia: [
+                "Aslan", "Lucy", "Edmund", "Susan", "Peter", "White Witch", "Mr. Tumnus",
+                "Beavers", "Narnia", "Cair Paravel", "Tashbaan", "Prince Caspian", "Reepicheep",
+                "Eustace", "Jill", "Silver Chair"
+            ],
+            ProgrammingLanguages: [
+                "Python", "Java", "JavaScript", "C++", "C#", "PHP", "Ruby", "Swift", "Go",
+                "Kotlin", "TypeScript", "Rust", "SQL", "HTML", "CSS", "Assembly"
+            ],
+            Body: [
+                "Head", "Shoulder", "Knee", "Toe", "Hand", "Foot", "Elbow", "Finger", "Nose",
+                "Eye", "Ear", "Mouth", "Hair", "Leg", "Arm", "Back"
+            ],
+            Languages: [
+                "English", "Spanish", "French", "German", "Chinese", "Japanese", "Italian",
+                "Portuguese", "Russian", "Arabic", "Hindi", "Korean", "Swahili", "Bengali", "Dutch", "Swedish"
+            ],
+            FastFoodRestaurants: [
+                "McDonald's", "Burger King", "Wendy's", "Subway", "Pizza Hut", "Domino's",
+                "Taco Bell", "KFC", "Chick-fil-A", "In-N-Out", "Starbucks", "Dunkin'",
+                "Chipotle", "Five Guys", "Panda Express", "Popeyes"
+            ]
+        };
+
+        async function generatePDF(topicTitle, cellItems) {
+            const pdfDoc = await PDFLib.PDFDocument.create();
+            const page = pdfDoc.addPage([425, 283]); // Approximately 15cm x 10cm
+            const { width, height } = page.getSize();
+            const font = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+            const regularFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica); // For cell text
+
+            const margin = 30;
+            const numColumns = 4;
+            const numRows = 4;
+            const cellWidth = (width - 2 * margin) / numColumns;
+            const cellHeight = (height - margin - 60) / numRows; // Adjusted for header and bottom margin
+            const headerHeight = 30;
+            const bottomMargin = 10;
+
+            function drawCell(row, col, color) {
+                const x = margin + col * cellWidth;
+                const y = height - margin - headerHeight - (row + 1) * cellHeight - bottomMargin;
+                const rectColor = color === 'blue' ? PDFLib.rgb(0.7, 0.9, 0.9) : PDFLib.rgb(1, 1, 1);
+                page.drawRectangle({ x, y, width: cellWidth, height: cellHeight, color: rectColor });
+                return { x, y, width: cellWidth, height: cellHeight }; // Return cell boundaries
+            }
+
+            function drawCenteredText(text, cell, fontSize, fontType, textColor) {
+                const textWidth = fontType.widthOfTextAtSize(text, fontSize);
+                const textHeight = fontType.heightAtSize(fontSize);
+                const centerX = cell.x + (cell.width / 2) - (textWidth / 2);
+                const centerY = cell.y + (cell.height / 2) - (textHeight / 2) + 3; // Adjust for baseline
+                page.drawText(text, { x: centerX, y: centerY, size: fontSize, font: fontType, color: textColor });
+            }
+
+            function headerText(passedText, center, yPos) {
+                const text = passedText;
+                const fontSize = 24;
+                const xCenter = center; // desired center x-position
+                const textWidth = font.widthOfTextAtSize(text, fontSize);
+                const x = xCenter - textWidth / 2;
+                page.drawText(text, { x, y: yPos, size: fontSize, font, color: PDFLib.rgb(0, 0.4, 0.6) });
+            }
+
+            // Draw the grid of cells and add numbers/letters
+            let wordIndex = 0;
+            for (let row = 0; row < numRows; row++) {
+                for (let col = 0; col < numColumns; col++) {
+                    const cellColor = (row % 2 === 0 && col % 2 !== 0) || (row % 2 !== 0 && col % 2 === 0) ? 'blue' : 'white';
+                    const cellBounds = drawCell(row, col, cellColor);
+                    if (wordIndex < cellItems.length) {
+                        drawCenteredText(cellItems[wordIndex], cellBounds, 12, regularFont, PDFLib.rgb(0, 0, 0));
+                        wordIndex++;
+                    }
+                }
+            }
+
+            // Draw header
+            headerText(topicTitle, width / 2, height - margin - 5);
+
+            // Draw row and column labels (no changes needed here)
+            const labelFontSize = 16;
+            const labelColor = PDFLib.rgb(0, 0.8, 0.8);
+            const colLabels = ["A", "B", "C", "D"];
+            const rowLabels = ["1", "2", "3", "4"];
+
+            colLabels.forEach((label, index) => {
+                const x = margin + index * cellWidth + (cellWidth / 2) - (font.widthOfTextAtSize(label, labelFontSize) / 2);
+                page.drawText(label, { x, y: height - margin - headerHeight, font, size: labelFontSize, color: labelColor });
+            });
+
+            rowLabels.forEach((label, index) => {
+                const y = height - margin - headerHeight - (index + 0.5) * cellHeight - (font.heightAtSize(labelFontSize) / 2) - bottomMargin;
+                page.drawText(label, { x: margin - 20, y, font, size: labelFontSize, color: labelColor });
+            });
+
+
+            const pdfBytes = await pdfDoc.save();
+            const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+            document.getElementById('pdfViewer').src = pdfUrl;
+
+            const downloadLink = document.createElement('a');
+            downloadLink.href = pdfUrl;
+            downloadLink.download = 'chameleon_card.pdf';
+
+            document.getElementById('downloadPdf').onclick = () => downloadLink.click();
+            document.getElementById('printPdf').onclick = () => window.open(pdfUrl, '_blank').print();
+        }
+
+        generatePDF();
+    </script>
+
+    <script>
+        // Create input fields for custom items
+        const cellInputsDiv = document.getElementById('cellInputs');
+        for (let i = 0; i < 16; i++) {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = `cellItem${i + 1}`;
+            input.placeholder = `Item ${i + 1}`;
+            cellInputsDiv.appendChild(input);
+        }
+
+        // Event listener for generating custom PDF
+        document.getElementById('generateCustomPdf').addEventListener('click', () => {
+            const topicTitleInput = document.getElementById('topicTitle');
+            const cellItemInputs = document.querySelectorAll('#cellInputs input');
+            const cellItems = Array.from(cellItemInputs).map(input => input.value);
+
+            if (topicTitleInput.value.trim() !== "" && cellItems.every(item => item.trim() !== "")) {
+                generatePDF(topicTitleInput.value, cellItems);
+            } else {
+                alert("Please enter a topic title and all 16 cell items.");
+            }
+        });
+
+        // Event listener for pre-generated topic selection
+        const pregeneratedTopicsSelect = document.getElementById('pregeneratedTopics');
+        const generatePregeneratedPdfButton = document.getElementById('generatePregeneratedPdf');
+
+        pregeneratedTopicsSelect.addEventListener('change', () => {
+            if (pregeneratedTopicsSelect.value !== "") {
+                generatePregeneratedPdfButton.disabled = false;
+            } else {
+                generatePregeneratedPdfButton.disabled = true;
+            }
+        });
+
+        // Event listener for generating pre-generated PDF
+        generatePregeneratedPdfButton.addEventListener('click', () => {
+            const selectedTopic = pregeneratedTopicsSelect.value;
+            if (selectedTopic && pregeneratedData.hasOwnProperty(selectedTopic)) {
+                generatePDF(selectedTopic.replace(/([A-Z])/g, ' $1').trim(), pregeneratedData[selectedTopic]);
+            } else {
+                alert("Please select a topic from the list.");
+            }
+        });
+
+        // Initial call to generate a default PDF (optional)
+        // generatePDF('Default Topic', Array(16).fill('Example'));
+    </script>
+</body>
+
+</html>

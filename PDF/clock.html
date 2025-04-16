@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Current Time</title>
+<style>
+  body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+  }
+
+  #time-container {
+    color: red;
+    font-size: 4em;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Add a black box shadow */
+  }
+
+  #ampm {
+    font-size: 0.6em; /* Make ampm smaller */
+    vertical-align: bottom;
+    margin-left: 0.2em; /* Add some space before ampm */
+  }
+</style>
+</head>
+<body>
+
+<div id="time-container">
+  <span id="hours-minutes"></span><span id="ampm"></span>
+</div>
+
+<script>
+  function updateTime() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    // Convert to 12-hour format
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    const formattedHours = String(hours).padStart(2, '0');
+
+    document.getElementById('hours-minutes').textContent = `${formattedHours}:${minutes}:${seconds}`;
+    document.getElementById('ampm').textContent = `${ampm}`;
+  }
+
+  // Update the time every second
+  setInterval(updateTime, 1000);
+
+  // Initial call to display the time immediately
+  updateTime();
+</script>
+
+</body>
+</html>

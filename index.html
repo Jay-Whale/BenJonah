@@ -1,85 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BenJonah</title>
-    <link href="light-darkmode/darkmode.css" rel="stylesheet" id="theme-link">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benjamin Johnson</title>
+<link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-    <main>
-        <header>
-            <h1>Ben Jonah</h1>
-            <nav>Somewhere!</nav>
-        </header>
 
-        <article class="d-flex vh-90">
-            <style>
-                * {
-                    font-family: "Bahnschrift";
-                    src: url(./fonts/Bahnschrift-Font-Family/BAHNSCHRIFT.TTF);
-                }
+<header>
+<h1>Benjamin Johnson</h1>
+<nav>
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="blog.html">Blog</a>
+</nav>
+</header>
 
-                .d-flex {
-                    display: flex;
-                }
+<main>
 
-                .left {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 50%;
-                }
+<section class="hero">
+<h2>Developer • Builder • Writer</h2>
+<p>Thoughts on programming, tools, and projects.</p>
+</section>
 
-                .right {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 50%;
-                }
+<section>
+<h3>Recent Posts</h3>
 
-                .vh-90 {
-                    height: 90vh;
-                }
+<article>
+<h4><a href="posts/first-post.html">First Blog Post</a></h4>
+<p>Introductory thoughts and site launch.</p>
+</article>
 
-                div.right img {
-                    width: 80%;
-                    border-radius: 45%;
-                }
+</section>
 
-                h1 {
-                    text-align: center;
-                }
-            </style>
-            <div class="left">
-                <div>
-                    <div style="background-color: orange; width: 100%; height: 50px;">
-                        <h1>Hi, I'm Benjamin</h1>
-                    </div>
-                    <svg width="100%" height="50%">
-                        <text x="50%" y="40%" text-anchor="middle" fill="white" font-size="4em">
-                            I'M A WEB
-                        </text>
+</main>
 
-                        <text x="50%" y="85%" text-anchor="middle" fill="white" font-size="5em">
-                            ARTIST
-                        </text>
-                    </svg>
-                </div>
-            </div>
-            <div class="right"><img src="./images/orc-wizard-bladesinger.png"></div>
-        </article>
-
-        <footer>Goodbye World!</footer>
-    </main>
-
-    <script>
-        fitText(document.querySelector("h1"), 0.38);
-    </script>
+<footer>
+<p>© 2026 Benjamin Johnson</p>
+</footer>
 
 </body>
-
-
 </html>
